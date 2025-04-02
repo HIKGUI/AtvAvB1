@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +16,6 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String sabor;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -25,8 +25,10 @@ public class Pedido implements Serializable {
     private String observacoes;
     private String status;
 
-    public Pedido(String sabor, Usuario usuario, Double valorTotal, String observacoes, String status) {
-        this.sabor = sabor;
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItensPedido> itens;
+
+    public Pedido(Usuario usuario, Double valorTotal, String observacoes, String status) {
         this.usuario = usuario;
         this.valorTotal = valorTotal;
         this.observacoes = observacoes;

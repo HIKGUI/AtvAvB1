@@ -32,8 +32,8 @@ public class ItensPedido implements Serializable {
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
-    public ItensPedido(String sabor) {
-        this.tamanho = sabor;
+    public ItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Double valorTotal, Pizza pizza, Borda borda) {
+        this.tamanho = tamanho;
         this.pizza = new Pizza();
         this.borda = new Borda();
         this.pedido = new Pedido();

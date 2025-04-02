@@ -1,10 +1,8 @@
 package br.unipar.programacaoweb;
 
 
-import br.unipar.programacaoweb.services.BordaSIB;
-import br.unipar.programacaoweb.services.PedidoSIB;
-import br.unipar.programacaoweb.services.PizzaSIB;
-import br.unipar.programacaoweb.services.UsuarioSIB;
+import br.unipar.programacaoweb.models.ItensPedido;
+import br.unipar.programacaoweb.services.*;
 import jakarta.xml.ws.Endpoint;
 
 public class ServiceCepPublisher {
@@ -30,6 +28,11 @@ public class ServiceCepPublisher {
                 "http://localhost:8080/pedido",
                 new PedidoSIB());
         System.out.println("Serviço publicado na porta 8080 com sucesso! - Pedido");
+
+        Endpoint.publish(
+                "http://localhost:8080/itensPedido",
+                new ItensPedidoSIB());
+        System.out.println("Serviço publicado na porta 8080 com sucesso! - ItensPedido");
     }
 
 }

@@ -20,7 +20,7 @@ public class PedidoSIB implements PedidoSEI {
         PedidoDAO dao = new PedidoDAO();
         dao.salvar(pedido);
 
-        return "Sabor salvo com sucesso!";    }
+        return "Pedido salvo com sucesso!";    }
 
 //    @Override
 //    public Pedido editarPedido(Pedido pedido) throws PedidoException {
@@ -54,9 +54,9 @@ public class PedidoSIB implements PedidoSEI {
         return "Pedido excluído com sucesso!";
     }
 
-    private boolean pedidoExiste(String sabor) {
+    private boolean pedidoExiste(String id) {
         PedidoDAO dao = new PedidoDAO();
-        Pedido pedido = dao.buscarPorSabor(sabor);
+        Pedido pedido = dao.buscarPorPedido(id);
 
         if(pedido == null) {
             return false;

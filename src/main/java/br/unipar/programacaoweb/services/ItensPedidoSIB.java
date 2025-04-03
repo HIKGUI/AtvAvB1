@@ -2,12 +2,11 @@ package br.unipar.programacaoweb.services;
 
 
 import br.unipar.programacaoweb.daos.ItensPedidoDAO;
-import br.unipar.programacaoweb.daos.UsuarioDAO;
 import br.unipar.programacaoweb.exceptions.ItensPedidoException;
 import br.unipar.programacaoweb.models.Borda;
 import br.unipar.programacaoweb.models.ItensPedido;
+import br.unipar.programacaoweb.models.Pedido;
 import br.unipar.programacaoweb.models.Pizza;
-import br.unipar.programacaoweb.models.Usuario;
 import jakarta.jws.WebService;
 
 import java.util.List;
@@ -19,8 +18,8 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
 
     @Override
-    public String salvarNovoItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Double valorTotal, Pizza pizza, Borda borda) throws ItensPedidoException {
-        ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda);
+    public String salvarNovoItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Double valorTotal, Pizza pizza, Borda borda, Pedido pedido) throws ItensPedidoException {
+        ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda, pedido);
         ItensPedidoDAO dao = new ItensPedidoDAO();
         dao.salvar(itensPedido);
 

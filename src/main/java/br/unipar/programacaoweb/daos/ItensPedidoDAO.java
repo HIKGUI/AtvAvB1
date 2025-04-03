@@ -78,7 +78,7 @@ public class ItensPedidoDAO {
 
     public List<ItensPedido> buscarTodos() {
         try {
-            return em.createQuery("from ItensPedido", ItensPedido.class)
+            return em.createQuery("from ItensPedido ", ItensPedido.class)
                     .getResultList();
         } catch (Exception e) {
             e.printStackTrace();

@@ -63,10 +63,10 @@ public class PedidoDAO {
         }
     }
 
-    public Pedido buscarPorSabor(String sabor) {
+    public Pedido buscarPorPedido(String id) {
         try {
-            return em.createQuery("from Pedido where sabor = :sabor", Pedido.class)
-                    .setParameter("sabor", sabor)
+            return em.createQuery("from Pedido where id = :id", Pedido.class)
+                    .setParameter("id", id)
                     .getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();

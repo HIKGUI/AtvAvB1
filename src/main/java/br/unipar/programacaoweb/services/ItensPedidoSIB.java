@@ -18,7 +18,11 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
 
     @Override
-    public String salvarNovoItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Double valorTotal, Pizza pizza, Borda borda, Pedido pedido) throws ItensPedidoException {
+    public String salvarNovoItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Pizza pizza, Borda borda, Pedido pedido) throws ItensPedidoException {
+
+        double valorTotal = quantidade * valorUnitario;
+
+
         ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda, pedido);
         ItensPedidoDAO dao = new ItensPedidoDAO();
         dao.salvar(itensPedido);
@@ -44,6 +48,7 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
     @Override
     public List<ItensPedido> listarItensPedido() {
+        //ItensPedidoDAO dao = new ItensPedidoDAO();
         ItensPedidoDAO dao = new ItensPedidoDAO();
         return dao.buscarTodos();
     }

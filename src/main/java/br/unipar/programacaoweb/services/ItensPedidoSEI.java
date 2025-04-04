@@ -18,7 +18,6 @@ public interface ItensPedidoSEI {
     String salvarNovoItensPedido(@WebParam(name = "tamanho") String tamanho,
                                  @WebParam(name = "quantidade") Integer quantidade,
                                  @WebParam(name = "valorUnitario") Double valorUnitario,
-                                 @WebParam(name = "valorTotal") Double valorTotal,
                                  @WebParam(name = "pizza") Pizza pizza,
                                  @WebParam(name = "borda") Borda borda,
                                  @WebParam(name = "pedido") Pedido pedido)

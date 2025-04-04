@@ -48,7 +48,6 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
     @Override
     public List<ItensPedido> listarItensPedido() {
-        //ItensPedidoDAO dao = new ItensPedidoDAO();
         ItensPedidoDAO dao = new ItensPedidoDAO();
         return dao.buscarTodos();
     }

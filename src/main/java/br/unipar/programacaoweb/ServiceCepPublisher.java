@@ -1,7 +1,5 @@
 package br.unipar.programacaoweb;
 
-
-import br.unipar.programacaoweb.models.ItensPedido;
 import br.unipar.programacaoweb.services.*;
 import jakarta.xml.ws.Endpoint;
 

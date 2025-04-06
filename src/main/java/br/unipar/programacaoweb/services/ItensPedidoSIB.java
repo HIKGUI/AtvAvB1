@@ -66,8 +66,31 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
     @Override
     public String excluirItensPedido(Integer id) throws ItensPedidoException {
+
         ItensPedidoDAO dao = new ItensPedidoDAO();
-        if(!dao.excluir(id)) {
+        ItensPedido item = dao.buscarPorId(id);
+
+        if (item == null) {
+            throw new ItensPedidoException("Item do Pedido não encontrado para exclusão!");
+        }
+
+        // Atualizar o valor do pedido antes de excluir o item
+        Pedido pedido = item.getPedido();
+        if (pedido != null) {
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            Pedido pedidoAtual = pedidoDAO.buscarPorPedido(pedido.getId());
+
+            if (pedidoAtual != null) {
+                double novoValorTotal = pedidoAtual.getValorTotal() != null ? pedidoAtual.getValorTotal() : 0.0;
+                novoValorTotal -= item.getValorTotal(); // subtrai o valor do item excluído
+                if (novoValorTotal < 0) novoValorTotal = 0.0;
+                pedidoAtual.setValorTotal(novoValorTotal);
+                pedidoDAO.atualizar(pedidoAtual);
+            }
+        }
+
+        // Agora sim exclui o item
+        if (!dao.excluir(id)) {
             throw new ItensPedidoException("Erro ao excluir Itens do Pedido!");
         }
 

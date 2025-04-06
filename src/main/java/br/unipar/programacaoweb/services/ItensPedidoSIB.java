@@ -94,10 +94,11 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
 
                 Runnable task = () -> {
                     if (index[0] < statusList.length) {
-                        Pedido pedidoParaAtualizar = pedidoDAO.buscarPorId(pedido.getId());
+                        PedidoDAO novoPedidoDAO = new PedidoDAO(); // Cria novo DAO com nova sessão
+                        Pedido pedidoParaAtualizar = novoPedidoDAO.buscarPorId(pedido.getId());
                         if (pedidoParaAtualizar != null) {
                             pedidoParaAtualizar.setStatus(statusList[index[0]]);
-                            pedidoDAO.atualizar(pedidoParaAtualizar);
+                            novoPedidoDAO.atualizar(pedidoParaAtualizar);
                             System.out.println("Status atualizado para: " + statusList[index[0]]);
                         }
                         index[0]++;

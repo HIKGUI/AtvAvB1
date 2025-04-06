@@ -11,6 +11,7 @@ public class ItensPedidoDAO {
     EntityManager em = EntityManagerUtil.getEm();
 
     public void salvar(ItensPedido itensPedido) {
+        EntityManager em = EntityManagerUtil.getEm();
         try {
             em.getTransaction().begin();
             em.persist(itensPedido);

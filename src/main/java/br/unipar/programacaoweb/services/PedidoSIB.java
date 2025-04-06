@@ -3,6 +3,7 @@ package br.unipar.programacaoweb.services;
 
 import br.unipar.programacaoweb.daos.ItensPedidoDAO;
 import br.unipar.programacaoweb.daos.PedidoDAO;
+import br.unipar.programacaoweb.daos.UsuarioDAO;
 import br.unipar.programacaoweb.exceptions.PedidoException;
 import br.unipar.programacaoweb.models.ItensPedido;
 import br.unipar.programacaoweb.models.Pedido;
@@ -18,11 +19,32 @@ public class PedidoSIB implements PedidoSEI {
 
     @Override
     public String salvarNovoPedido(Usuario usuario, Double valorTotal, String observacoes, String status) throws PedidoException {
-        Pedido pedido = new Pedido(usuario, valorTotal, observacoes, "Recebido");
-        PedidoDAO dao = new PedidoDAO();
-        dao.salvar(pedido);
 
-        return "Pedido salvo com sucesso!";    }
+        try{
+
+            Pedido pedido = new Pedido(usuario, valorTotal, observacoes, "Recebido");
+            PedidoDAO dao = new PedidoDAO();
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            String mensagem = "";
+
+            if (usuarioDAO.buscarPorId(usuario.getId()) != null) {
+                dao.salvar(pedido);
+                mensagem = "Pedido cadastrado com sucesso!";
+
+            }else {
+                mensagem = "Erro no cadastro do pedido, cliente invalido!";
+            }
+
+
+            return mensagem;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+
+
+            }
 
 //    @Override
 //    public Pedido editarPedido(Pedido pedido) throws PedidoException {

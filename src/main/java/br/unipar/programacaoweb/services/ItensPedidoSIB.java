@@ -1,8 +1,10 @@
 package br.unipar.programacaoweb.services;
 
 
+import br.unipar.programacaoweb.daos.BordaDAO;
 import br.unipar.programacaoweb.daos.ItensPedidoDAO;
 import br.unipar.programacaoweb.daos.PedidoDAO;
+import br.unipar.programacaoweb.daos.PizzaDAO;
 import br.unipar.programacaoweb.exceptions.ItensPedidoException;
 import br.unipar.programacaoweb.models.Borda;
 import br.unipar.programacaoweb.models.ItensPedido;
@@ -21,25 +23,69 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
     @Override
     public String salvarNovoItensPedido(String tamanho, Integer quantidade, Double valorUnitario, Pizza pizza, Borda borda, Pedido pedido) throws ItensPedidoException {
 
-        double valorTotal = quantidade * valorUnitario;
+        try{
+
+            double valorTotal = quantidade * valorUnitario;
 
 
-        ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda, pedido);
-        ItensPedidoDAO dao = new ItensPedidoDAO();
-        dao.salvar(itensPedido);
+            ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda, pedido);
+            ItensPedidoDAO dao = new ItensPedidoDAO();
+            BordaDAO bordaDAO = new BordaDAO();
+            PizzaDAO pizzaDAO = new PizzaDAO();
+            String mensagem = "";
 
-        // Atualizar o valorTotal do pedido
-        PedidoDAO pedidoDAO = new PedidoDAO();
-        Pedido pedidoAtual = pedidoDAO.buscarPorPedido(pedido.getId());
+            if ((pizzaDAO.buscarPorId(pizza.getId()) != null) && (bordaDAO.buscarPorId(borda.getId()) != null)) {
+                dao.salvar(itensPedido);
+                mensagem = "Itens do Pedido salvo com sucesso!";
 
-        if (pedidoAtual != null) {
-            double novoValorTotal = pedidoAtual.getValorTotal();
-            novoValorTotal += valorTotal;
-            pedidoAtual.setValorTotal(novoValorTotal);
-            pedidoDAO.atualizar(pedidoAtual);
+            }else {
+                mensagem = "Erro ao cadastrar Itens do Pedido, sabores invalidos!";
+                Integer pizzaEncontrada = null;
+                Integer bordaEncontrada = null;
+
+                if (pizzaEncontrada == null) {
+                    PizzaSIB pizzaSIB = new PizzaSIB();
+                    List<Pizza> todasPizzas = pizzaSIB.listarPizza();
+
+                    mensagem += "\nLista de Pizzas disponíveis:";
+                    for (Pizza p : todasPizzas) {
+                        mensagem += "\nID: " + p.getId() + " - Sabor: " + p.getSabor();
+                    }
+                }
+
+                if (bordaEncontrada == null) {
+                    BordaSIB bordaSIB = new BordaSIB();
+                    List<Borda> todasBordas = bordaSIB.listarBorda();
+
+                    mensagem += "\nLista de Bordas disponíveis:";
+                    for (Borda b : todasBordas) {
+                        mensagem += "\nID: " + b.getId() + " - Tipo: " + b.getSabor();
+                    }
+                }
+            }
+
+
+
+            // Atualizar o valorTotal do pedido
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            Pedido pedidoAtual = pedidoDAO.buscarPorPedido(pedido.getId());
+
+            if (pedidoAtual != null) {
+                double novoValorTotal = pedidoAtual.getValorTotal();
+                novoValorTotal += valorTotal;
+                pedidoAtual.setValorTotal(novoValorTotal);
+                pedidoAtual.setStatus("Recebido");
+                pedidoDAO.atualizar(pedidoAtual);
+            }
+
+            return mensagem;
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
-        return "Itens do Pedido salvo com sucesso!";
+
     }
 
     @Override

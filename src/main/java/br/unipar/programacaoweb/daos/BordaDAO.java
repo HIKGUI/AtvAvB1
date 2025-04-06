@@ -53,6 +53,8 @@ public class BordaDAO {
     }
 
     public Borda buscarPorId(Integer id) {
+        EntityManager em = EntityManagerUtil.getEm();
+
         try {
             return em.find(Borda.class, id);
         } catch (Exception e) {

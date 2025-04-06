@@ -66,7 +66,7 @@ public class ItensPedidoDAO {
         }
     }
 
-    public ItensPedido buscarPorItensPedido(String id) {
+    public ItensPedido buscarPorItensPedido(Integer id) {
         try {
             return em.createQuery("from ItensPedido where id = :id", ItensPedido.class)
                     .setParameter("id", id)

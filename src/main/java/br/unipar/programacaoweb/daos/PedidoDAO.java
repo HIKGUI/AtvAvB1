@@ -41,6 +41,8 @@ public class PedidoDAO {
     }
 
     public boolean excluir(Integer id) {
+        EntityManager em = EntityManagerUtil.getEm();
+
         try {
             em.getTransaction().begin();
             Pedido pedido = em.find(Pedido.class, id);

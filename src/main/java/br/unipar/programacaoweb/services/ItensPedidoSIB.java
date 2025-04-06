@@ -11,6 +11,10 @@ import br.unipar.programacaoweb.models.ItensPedido;
 import br.unipar.programacaoweb.models.Pedido;
 import br.unipar.programacaoweb.models.Pizza;
 import jakarta.jws.WebService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 import java.util.List;
 
@@ -76,6 +80,33 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
                 pedidoAtual.setValorTotal(novoValorTotal);
                 pedidoAtual.setStatus("Recebido");
                 pedidoDAO.atualizar(pedidoAtual);
+
+                // AGENDADOR DE STATUS DIRETO AQUI
+                ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+                String[] statusList = {
+                        "Em Preparo",
+                        "Pronto para Retirada",
+                        "Saiu para Entrega",
+                        "Entregue"
+                };
+
+                final int[] index = {0};
+
+                Runnable task = () -> {
+                    if (index[0] < statusList.length) {
+                        Pedido pedidoParaAtualizar = pedidoDAO.buscarPorId(pedido.getId());
+                        if (pedidoParaAtualizar != null) {
+                            pedidoParaAtualizar.setStatus(statusList[index[0]]);
+                            pedidoDAO.atualizar(pedidoParaAtualizar);
+                            System.out.println("Status atualizado para: " + statusList[index[0]]);
+                        }
+                        index[0]++;
+                    } else {
+                        scheduler.shutdown();
+                    }
+                };
+
+                scheduler.scheduleAtFixedRate(task, 1, 1, TimeUnit.MINUTES); // executa a cada 1 minuto
             }
 
             return mensagem;

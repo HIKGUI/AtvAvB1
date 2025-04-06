@@ -78,6 +78,7 @@ public class PedidoSIB implements PedidoSEI {
     @Override
     public String excluirPedido(Integer id) throws PedidoException {
         PedidoDAO dao = new PedidoDAO();
+
         if(!dao.excluir(id)) {
             throw new PedidoException("Erro ao excluir Pedido!");
         }

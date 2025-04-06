@@ -2,6 +2,7 @@ package br.unipar.programacaoweb.services;
 
 
 import br.unipar.programacaoweb.daos.ItensPedidoDAO;
+import br.unipar.programacaoweb.daos.PedidoDAO;
 import br.unipar.programacaoweb.exceptions.ItensPedidoException;
 import br.unipar.programacaoweb.models.Borda;
 import br.unipar.programacaoweb.models.ItensPedido;
@@ -26,6 +27,17 @@ public class ItensPedidoSIB implements ItensPedidoSEI {
         ItensPedido itensPedido = new ItensPedido(tamanho, quantidade, valorUnitario, valorTotal, pizza, borda, pedido);
         ItensPedidoDAO dao = new ItensPedidoDAO();
         dao.salvar(itensPedido);
+
+        // Atualizar o valorTotal do pedido
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        Pedido pedidoAtual = pedidoDAO.buscarPorPedido(pedido.getId());
+
+        if (pedidoAtual != null) {
+            double novoValorTotal = pedidoAtual.getValorTotal();
+            novoValorTotal += valorTotal;
+            pedidoAtual.setValorTotal(novoValorTotal);
+            pedidoDAO.atualizar(pedidoAtual);
+        }
 
         return "Itens do Pedido salvo com sucesso!";
     }

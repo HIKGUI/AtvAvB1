@@ -1,8 +1,10 @@
 package br.unipar.programacaoweb.services;
 
 
+import br.unipar.programacaoweb.daos.ItensPedidoDAO;
 import br.unipar.programacaoweb.daos.PedidoDAO;
 import br.unipar.programacaoweb.exceptions.PedidoException;
+import br.unipar.programacaoweb.models.ItensPedido;
 import br.unipar.programacaoweb.models.Pedido;
 import br.unipar.programacaoweb.models.Usuario;
 import jakarta.jws.WebService;
@@ -42,6 +44,13 @@ public class PedidoSIB implements PedidoSEI {
     public List<Pedido> listarPedido() {
         PedidoDAO dao = new PedidoDAO();
         return dao.buscarTodos();
+
+    }
+
+        @Override
+        public List<ItensPedido> listarItensPedido() {
+        ItensPedidoDAO dao = new ItensPedidoDAO();
+        return dao.buscarTodos();
     }
 
     @Override
@@ -54,21 +63,23 @@ public class PedidoSIB implements PedidoSEI {
         return "Pedido excluído com sucesso!";
     }
 
-    private boolean pedidoExiste(String id) {
-        PedidoDAO dao = new PedidoDAO();
-        Pedido pedido = dao.buscarPorPedido(id);
-
-        if(pedido == null) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
+//    private boolean pedidoExiste(Integer id) {
+//        PedidoDAO dao = new PedidoDAO();
+//        Pedido pedido = dao.buscarPorPedido(Integer id);
+//
+//        if(pedido == null) {
+//            return false;
+//        } else {
+//            return true;
+//        }
+//
+//    }
 
     private void salvarNovoPedido(Pedido pedido) {
         PedidoDAO dao = new PedidoDAO();
         dao.salvar(pedido);
     }
+
+
 
 }

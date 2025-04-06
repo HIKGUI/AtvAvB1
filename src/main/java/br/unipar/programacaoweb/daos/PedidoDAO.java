@@ -1,6 +1,7 @@
 package br.unipar.programacaoweb.daos;
 
 import br.unipar.programacaoweb.models.Pedido;
+import br.unipar.programacaoweb.models.Pizza;
 import br.unipar.programacaoweb.utils.EntityManagerUtil;
 import jakarta.persistence.EntityManager;
 
@@ -24,6 +25,7 @@ public class PedidoDAO {
     }
 
     public void atualizar(Pedido pedido) {
+        EntityManager em = EntityManagerUtil.getEm();
         try {
             em.getTransaction().begin();
             em.merge(pedido);
@@ -63,7 +65,7 @@ public class PedidoDAO {
         }
     }
 
-    public Pedido buscarPorPedido(String id) {
+    public Pedido buscarPorPedido(Integer id) {
         try {
             return em.createQuery("from Pedido where id = :id", Pedido.class)
                     .setParameter("id", id)

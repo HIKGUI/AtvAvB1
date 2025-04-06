@@ -1,6 +1,8 @@
 package br.unipar.programacaoweb.services;
 
+import br.unipar.programacaoweb.exceptions.ItensPedidoException;
 import br.unipar.programacaoweb.exceptions.PedidoException;
+import br.unipar.programacaoweb.models.ItensPedido;
 import br.unipar.programacaoweb.models.Pedido;
 import br.unipar.programacaoweb.models.Usuario;
 import jakarta.jws.WebMethod;
@@ -22,6 +24,9 @@ public interface PedidoSEI {
 
     @WebMethod
     List<Pedido> listarPedido() throws PedidoException;
+
+    @WebMethod
+    List<ItensPedido> listarItensPedido() throws ItensPedidoException;
 
     @WebMethod
     String excluirPedido(@WebParam(name = "id") Integer id) throws PedidoException;

@@ -25,8 +25,9 @@ public class Pedido implements Serializable {
     private String observacoes;
     private String status;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ItensPedido> itens;
+//    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ItensPedido> itens;
+
 
     public Pedido(Usuario usuario, Double valorTotal, String observacoes, String status) {
         this.usuario = usuario;

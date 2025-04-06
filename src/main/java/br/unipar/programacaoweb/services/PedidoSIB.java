@@ -18,7 +18,7 @@ public class PedidoSIB implements PedidoSEI {
 
     @Override
     public String salvarNovoPedido(Usuario usuario, Double valorTotal, String observacoes, String status) throws PedidoException {
-        Pedido pedido = new Pedido(usuario, valorTotal, observacoes, status);
+        Pedido pedido = new Pedido(usuario, valorTotal, observacoes, "Recebido");
         PedidoDAO dao = new PedidoDAO();
         dao.salvar(pedido);
 

@@ -26,7 +26,6 @@ public class PedidoDAO {
 
     public void atualizar(Pedido pedido) {
         EntityManager em = EntityManagerUtil.getEm();
-
         try {
             em.getTransaction().begin();
             em.merge(pedido);

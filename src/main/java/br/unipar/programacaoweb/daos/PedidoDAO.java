@@ -70,6 +70,8 @@ public class PedidoDAO {
     }
 
     public Pedido buscarPorPedido(Integer id) {
+        EntityManager em = EntityManagerUtil.getEm();
+
         try {
             return em.createQuery("from Pedido where id = :id", Pedido.class)
                     .setParameter("id", id)

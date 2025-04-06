@@ -29,6 +29,9 @@ public interface PedidoSEI {
     List<ItensPedido> listarItensPedido() throws ItensPedidoException;
 
     @WebMethod
+    String listarItensPedidoId(@WebParam(name = "id") Integer id) throws PedidoException;
+
+    @WebMethod
     String excluirPedido(@WebParam(name = "id") Integer id) throws PedidoException;
 
 }

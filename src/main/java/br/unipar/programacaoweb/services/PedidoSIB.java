@@ -76,6 +76,14 @@ public class PedidoSIB implements PedidoSEI {
     }
 
     @Override
+    public String listarItensPedidoId(Integer id) throws PedidoException {
+        PedidoDAO dao = new PedidoDAO();
+        return dao.buscarPorPedido(id).getId() +"\n"+ dao.buscarPorPedido(id).getStatus() +"\n"+ dao.buscarPorPedido(id).getObservacoes()
+                +"\n"+ dao.buscarPorPedido(id).getValorTotal() +"\n";
+    }
+
+
+    @Override
     public String excluirPedido(Integer id) throws PedidoException {
         PedidoDAO dao = new PedidoDAO();
 
